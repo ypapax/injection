@@ -3,7 +3,7 @@ set -ex
 
 test(){
 	go test -c
-	./injection.test -alsologtostderr
+	./injection.test -test.v -alsologtostderr
 }
 
 $@

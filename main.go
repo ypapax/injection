@@ -2,18 +2,10 @@ package injection
 
 import (
 	"bytes"
-	"flag"
-	"os"
-	"testing"
 
 	"github.com/PuerkitoBio/goquery"
 	"github.com/golang/glog"
 )
-
-func TestMain(m *testing.M) {
-	flag.Parse()
-	os.Exit(m.Run())
-}
 
 func Detect(input string) (bool, error) {
 	n, err := goquery.NewDocumentFromReader(bytes.NewReader([]byte(input)))
@@ -21,6 +13,7 @@ func Detect(input string) (bool, error) {
 		glog.Error(err)
 		return false, err
 	}
-	glog.Infof("n.Nodes %+v", n.Nodes)
-	return len(n.Nodes) > 0, nil
+	return n.Find("script").Length() > 0 || n.Find("meta").Length() > 0, nil
+	/*glog.Infof("n.Nodes %+v", len(n.Nodes))
+	return len(n.Nodes) > 0, nil*/
 }
